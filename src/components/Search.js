@@ -3,7 +3,7 @@ import { gql, useLazyQuery } from "@apollo/client";
 
 const SEARCH_MOVIE = gql`
   query SearchMovies($name: String!) {
-    searchMovies(filter: {name: $name}) {
+    searchMovies(query: $name) {
       id
       name
       overview
@@ -25,12 +25,15 @@ const SEARCH_MOVIE = gql`
 
 function Search() {
   const [name, setName] = useState("");
-  const [getMovies, {loading, error, data, called}] = useLazyQuery(SEARCH_MOVIE, {
-    variables: {
-        name
-    },
-})
-console.log({loading, error, data, called})
+  const [getMovies, { loading, error, data, called }] = useLazyQuery(
+    SEARCH_MOVIE,
+    {
+      variables: {
+        name,
+      },
+    }
+  );
+  console.log({ loading, error, data, called });
   return (
     <div>
       <input value={name} onChange={(e) => setName(e.target.value)} />
@@ -38,6 +41,5 @@ console.log({loading, error, data, called})
     </div>
   );
 }
-
 
 export default Search;
